@@ -1,0 +1,30 @@
+---
+title: "Title"
+subtitle: "Subtitle"
+author: "Your Name"
+thanks: "Project repository available at: [https://github.com/peteragao/MATH261A-project-template](https://github.com/peteragao/MATH261A-project-template)."
+date: today
+date-format: long
+abstract: "Abstract here."
+format: pdf
+bibliography: references.bib
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+# Introduction
+
+# Data
+
+# Methods
+
+# Results
+
+# References

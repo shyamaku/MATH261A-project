@@ -11,3 +11,7 @@ Example project repository for MATH 261A.
 
 * LLM-based chatbots (ex. ChatGPT Edu)
 * Online forums (ex. Stack Overflow).
+
+# Acknowledgments
+
+This project repository is based on the template provided by [Rohan Alexander](https://github.com/RohanAlexander/starter_folder/tree/main).
