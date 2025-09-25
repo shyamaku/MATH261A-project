@@ -9,7 +9,7 @@ Project repository for MATH 261A.
 #Project Folder
 
 * analysis folder: Contains R Code for the first version of project.
-* data folder: Contains csv file with police department incident report data from 2018 to present.
+* data folder: Doesn't contain any data.
 * paper: Contains PDF document for the first project. Quarto document for the same and references.bib
 
 ## Data 

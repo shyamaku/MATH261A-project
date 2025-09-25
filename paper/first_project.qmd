@@ -58,7 +58,7 @@ vehicle_data <- subset(police_incidents, police_incidents$`Incident Category` ==
 incident_week <- as.Date(vehicle_data$`Incident Date`, format="%Y-%m-%d")
 vehicle_data$week <- as.numeric(strftime(incident_week, format="%V"))
 theft_per_week_2024 <- subset(vehicle_data, vehicle_data$`Incident Year`== 2024) %>% count(week, name = 'num_theft')
-#head(theft_per_week_2020)
+#head(theft_per_week_2024)
 plot(theft_per_week_2024$week, theft_per_week_2024$num_theft, col = "red",  xlab = "Week", ylab = "Number of Thefts", main = "Vehicle Thefts per Week in 2024")
 ```
 
@@ -88,7 +88,6 @@ The linear model fit for the number of vehicle thefts vs. week is given in the s
 #| echo: false
 #| warning: false
 #| message: false
-#lm_fit <- lm(body_mass_g ~ flipper_length_mm, data = adelie)
 lm_fit <- lm(num_theft ~ week, data = theft_per_week_2024)
 summary(lm_fit)
 ```
