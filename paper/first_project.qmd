@@ -5,17 +5,17 @@ author: "Kumari Shyama"
 thanks: "Project repository available at: [https://github.com/shyamaku/MATH261A-project](https://github.com/shyamaku/MATH261A-project)."
 date: "`r Sys.Date()`"
 date-format: long
-abstract: "Every year, a significant number of vehicle theft reports are captured by the Police Department in California, USA. In the year 2024, 7,250 vehicle thefts were reported in San Francisco. The project aims to explore seasonal patterns of vehicle thefts in San Francisco throughout the year using a Simple Linear Regression Model to understand if there is any significant impact of summer, winter, or holiday seasons on the number of thefts occurring. The analysis results suggests that there is an overall decrease in thefts in the year 2024. Through the scatterplot, patterns suggesting increase in theft in summer and a decrease in winter are visible. However, there can be many various factors involved affecting the decline; the regression model only explains approximately 33% variation in the data."
+abstract: "Every year, a significant number of vehicle theft reports are captured by the Police Department in California, USA. In the year 2024, 7,250 vehicle thefts were reported in San Francisco. The project aims to explore seasonal patterns of vehicle thefts in San Francisco throughout the year using a Simple Linear Regression Model to understand if there is any significant impact of summer, winter, or holiday seasons on the number of thefts occurring. The analysis results suggest that there is an overall decrease in thefts in the year 2024.Though, the regression model only explains approximately 33% variation in the data. Patterns suggesting increase in theft in summer and a decrease in winter are visible. However,a simple linear regression model might not be the best fit for the research question asked as there can be various factors involved affecting the decline and the mid year spike in the number of vehicle theft reports."
 format: pdf
 bibliography: references.bib
 number-sections: true
 ---
-```{r}
-```
 
 ```{r}
 ```
 
+```{r}
+```
 
 ```{r}
 #| include: false
@@ -31,87 +31,125 @@ police_incidents <- readr::read_csv('C:/Users/shyam/OneDrive/Desktop/MATH261A/Po
 
 # Introduction
 
-In the United States, the issue of vehicle theft has significantly impacted residents for many years. Incidents of stolen vehicles, break-ins, and parts theft have been increasing rapidly. However, in 2024, San Francisco, California, saw its first significant decrease in the number of such cases [@CBS_News]. Many factors could have contributed to the resource management and allocation for the San Francisco Police Department (SFPD) for the same. While researchers often emphasize the overall crime trend and spatial data for coming up with theft prevention measures, there has been less emphasis on the seasonal trend of vehicle thefts. Our initial assumption states that during summer, there is a significant increase in people going out, thus increasing the number of vehicles on the street. However, during peak winters, there would be a decrease in vehicles on the road. This project aims to study whether there is a significant impact on thefts based on seasonal variations and holiday periods in the year 2024. 
+In the United States, the issue of vehicle theft has significantly impacted residents for many years.
+Incidents of stolen vehicles, break-ins, and parts theft have been increasing rapidly.
+However, in 2024, San Francisco, California, saw its first significant decrease in the number of such cases [@CBS_News].
 
-The project analyses trends using scatterplots and applies simple linear regression to interpret the correlation between seasons and vehicle theft. It also examines the limitations of the linear regression model using the residual vs fitted plot. Through this study, the expectation is to provide significant results with the aim of assisting the SFPD with better resource allocations during those periods to further reduce the crime rates.
-The remainder of this paper is structured as follows: @sec-data introduces the data used in this analysis @sec-methods describes the model...
-
-# Data {#sec-data}
-
-The dataset used in the project is obtained from DataSF, which is an open data portal [@datasf_police_incidents]. It is a reliable source of data as the incidents are filed by officers and members of the public. Additionally, it does not contain any confidential information related to the incidents. The dataset contains 969,326 records of various incidents (Fraud, Assault, Motor Vehicle Theft, etc.) captured from 2018 to the present. Each row describes the date, time, year of an incident, along with incident description, ID, category, police district, analysis neighborhood, resolution, and other incident area-related fields.
-
-For the scope of this analysis, the data has been filtered to include only records of "Motor Vehicle Theft" for the year 2024. Since there has been a recent decline in vehicle theft incidents in 2024, this project aims to explore trends based on the lower number of crimes. From the incident date field, the week of the year has been extracted, and then records have been grouped by weeks to count the number of vehicle thefts each week.
-
-```{r}
+```{r fig-yearly-vehicle-thefts}
 #| echo: false
 #| warning: false
 #| message: false
-vehicle_data <- subset(police_incidents, police_incidents$`Incident Category` == "Motor Vehicle Theft")
-#head(vehicle_data)
+vehicle_data <- subset(police_incidents, police_incidents$`Incident Category` == "Motor Vehicle Theft" & police_incidents$`Incident Year`!=2025)
+theft_per_year <- vehicle_data %>% count(vehicle_data$`Incident Year`, name = 'yearly_theft')
+plot(theft_per_year$`vehicle_data$\`Incident Year\``, theft_per_year$yearly_theft, col = "blue", xlab = "Years", ylab = "Motor Vehicle Theft Reports", main = "Vehicle Thefts Reported Yearly (2018 - 2024)")
 ```
+
+@fig-yearly-vehicle-thefts displays the sudden decline in the number of motor vehicle theft incidents in San Francisco for the year 2024, compared to previous years starting from 2018.
+Many factors could have contributed to the resource management and allocation for the San Francisco Police Department (SFPD) for the same.
+While researchers often emphasize the overall crime trend and spatial data for coming up with theft prevention measures, there has been less emphasis on the seasonal trend of vehicle thefts.
+Our initial assumption states that during summer, there is a significant increase in people going out, thus increasing the number of vehicles on the street.
+However, during peak winters, there would be a decrease in vehicles on the road.
+This project aims to study whether there is a significant impact on thefts based on seasonal variations and holiday periods in the year 2024.
+
+The project analyses trends using scatter plots and applies simple linear regression to interpret the correlation between seasons and vehicle theft.
+It also examines the limitations of the linear regression model using the residual vs fitted plot.
+Through this study, the expectation is to provide significant results with the aim of assisting the SFPD with better resource allocations during those periods to further reduce the crime rates.
+
+The remainder of this paper is structured as follows: @sec-data introduces the data used in this analysis.
+@sec-methods describes the simple linear regression model used for the purpose of answering the research question.
+It also explains the significance of using ANOVA and residuals in assessing the fit of the model.
+@sec-results explores in depth the results of the analysis and examines if the assumptions of the model being a good fit hold true.
+@sec-discussion discusses the interpretations based on the research question and whether the model is efficient in analyzing the seasonal patterns, if any.
+Additionally, it discusses the limitations of the model for the given data and scope of future research.
+
+# Data {#sec-data}
+
+The dataset used in the project is obtained from DataSF, which is an open data portal [@datasf_police_incidents].
+It is considered a reliable source of data as the incidents are recorded through official police reporting systems.
+However, it may contain some wrong classifications due to human errors at the time of reporting, and there might be cases where the thefts have not been reported.
+Additionally, it does not contain any confidential information related to the incidents.
+The dataset comprises `r nrow(police_incidents)` records of various incidents (e.g., Fraud, Assault, Motor Vehicle Theft) captured from 2018 to the present.
+Each row describes the date, time, year of an incident, along with incident description, ID, category, police district, analysis neighborhood, resolution, and other incident area-related fields.
+
+For the scope of this analysis, the data has been filtered to include only records of "Motor Vehicle Theft" for the year 2024.
+The key variables used in our regression analysis are mentioned below:
+
+| Key Variables | Description |
+|------------------------------------|------------------------------------|
+| week (numerical) | Week of the year. Extracted from the Incident Date field. |
+| num_theft (numerical) | Aggregated number of vehicle theft reports for each week of the year. |
+
+The data has been processed in a weekly format, as the number of theft reports daily might not significantly express the trend with the change in seasons, while monthly analysis might miss any granular-level trend in the data.
+Since there has been a recent decline in vehicle theft incidents in 2024, this project aims to explore in depth trends based on the lower number of crimes for the given year.
+
+# Methods {#sec-methods}
+
+This project adopts the simple linear regression model with week of the year as the predictor $X_i$ and number of vehicle thefts as the response $Y_i$, where $i = 1, 2, ..., n$ and $n$ is the number of records.
+The model can be represented with the following equation:
+
+$$Y_i = \beta_0 +\beta_1 X_i + \varepsilon_i$$
+
+In this model, $\beta_1$ represents the slope, which describes the change in the number of vehicle thefts as the week increases.
+$\beta_0$ represents the intercept, which describes the number of vehicle thefts at week 0, and $\epsilon$ represents the random error, which describes the unexplained variation of data.
+
+Next, after fitting the model as per the above equation, analysis of variance is performed using ANOVA.
+Additionally, the project analyses the model's fit using the residual values.
+Residuals are the difference between observed and predicted values, written as, $$e_i = Y_i - \hat{Y}$$
+
+The analysis has been implemented using the R programming language [@R_language] and packages including [@R_dplyr],[@R_ggplot2]
+
+# Results {#sec-results}
+
+This section presents the result of the analysis conducted to examine whether motor vehicle thefts follow a seasonal pattern.
+A scatterplot is used to visualize the relationship between weeks and the number of motor vehicle theft reports.
+@fig-vehicle-theft-scatter indicates a negative relation between the two key variables
 
 ```{r fig-vehicle-theft-scatter}
 #| echo: false
 #| warning: false
 #| message: false
-#| fig-cap: "Scatter plot of week in x-axis and number of thefts in y-axis."
+#| fig-cap: "Scatter plot of week in x-axis and number of vehicle theft reports in y-axis."
 incident_week <- as.Date(vehicle_data$`Incident Date`, format="%Y-%m-%d")
 vehicle_data$week <- as.numeric(strftime(incident_week, format="%V"))
 theft_per_week_2024 <- subset(vehicle_data, vehicle_data$`Incident Year`== 2024) %>% count(week, name = 'num_theft')
 #head(theft_per_week_2024)
-plot(theft_per_week_2024$week, theft_per_week_2024$num_theft, col = "red",  xlab = "Week", ylab = "Number of Thefts", main = "Vehicle Thefts per Week in 2024")
+plot(theft_per_week_2024$week, theft_per_week_2024$num_theft, col = "red",  xlab = "Week of the Year 2024", ylab = "Number of Vehicle Thefts", main = "Vehicle Thefts Reports per Week in 2024")
 ```
 
-@fig-vehicle-theft-scatter indicates a negative linear association between number of thefts and week.
-
-# Methods {#sec-methods}
-
-This project adopts the simple linear regression model with week of the year as the predictor $X_i$ and number of vehicle thefts as the response $Y_i$, where $i = 1, 2, ..., n$ and $n$ is the number of records. The model can be represented with the following equation:
-
-$$Y_i = \beta_0 +\beta_1 X_i + \varepsilon_i$$
-
-In this model, $\beta_1$ represents the slope, which describes the change in the number of vehicle thefts as the week increases.
-$\beta_0$ represents the intercept, which describes the number of vehicle thefts at week 0.
-and $\epsilon$ represents the random error, which describes the unexplained variation of data.
-
-Next, after fitting the model as per the above equation, analysis of variance is performed using ANOVA.
-Additionally, the project analyses the model's fit using the residual values. Residuals are the difference between observed and predicted values, written as,
-$$e_i = Y_i - \hat{Y}$$
-
-The analysis has been implemented using the R programming language [@R_language] and packages including [@R_dplyr],[@R_ggplot2]  
-
-# Results {#sec-results}
-
-The linear model fit for the number of vehicle thefts vs. week is given in the summary below:
+The summary after fitting the linear regression model with outcome as the number of motor vehicle theft reports and predictor as the week of the year is described below:
 
 ```{r adelie-lm}
 #| echo: false
 #| warning: false
 #| message: false
+#| results: "hide"
 lm_fit <- lm(num_theft ~ week, data = theft_per_week_2024)
-summary(lm_fit)
+summary <- summary(lm_fit)
 ```
 
-The estimated slope parameter is $b_1=$ `r round(coefficients(lm_fit)[2], 3)`. In other words, as the weeks progress, there is a decrease in the number of vehicle thefts by $\approx 1$.
-The estimated intercept is $b_0=$ `r round(coefficients(lm_fit)[1], 3)` which explains the expected number of thefts at week = 0.
-The R-squared value: $0.3279$ explains $\approx 33\%$ of the variation in the theft numbers per week.
+-   The estimated slope parameter is $b_1=$ `r round(coefficients(lm_fit)[2], 3)`. In other words, as the weeks progress, there is an average decrease in the number of vehicle theft reports by $\approx 1$.
+-   The estimated intercept is $b_0=$ `r round(coefficients(lm_fit)[1], 3)` , which explains the expected number of thefts at week 0.
+-   The t value = `r summary$coefficients[2, "t value"]` and p-value = `r summary$coefficients[2, "Pr(>|t|)"]` show that week is a statistically significant predictor for the estimated decrease in the number of vehicle theft reports. However, this cannot be interpreted as such because it was already established that in 2024, the number of vehicle thefts had decreased significantly, and the decrease does not directly depend on the increase in weeks.
+-   The R-squared value: $0.3279$ explains $\approx 33\%$ of the variation in the theft report numbers per week. This does not cover a significant amount of variation in the data.
 
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
-anova(lm_fit)
+anova <- anova(lm_fit)
 ```
 
-Using ANOVA, the null hypothesis $\beta_1=0$ is compared with the two-sided alternative hypothesis $\beta_1\not=0$. In order to reject the null hypothesis, the mean squared regression (MSR) should be very large compared to the mean squared error (MSE). In the above result, MSR = $10646.5$ >> MSE = $436.5$. Thus, the null hypothesis is rejected.
-
-@fig-vehicle-theft-scatter indicates that the initial assumptions hold value. Between week 23-37 (summer), there can be seen a spike in the number of thefts, which falls under the earlier assumption of this project. Similarly, week 45-55 (winter) shows the lowest number of thefts in San Francisco.
+To assess the fit of the linear regression model, ANOVA is applied to the fitted model.
+The null hypothesis $\beta_1=0$ (no linear relationship between the two variables) is compared with the two-sided alternative hypothesis $\beta_1\not=0$.
+In order to reject the null hypothesis, the ratio between the mean squared regression (MSR) and the mean squared error (MSE) should be significantly larger than 1.
+In the above result, MSR = `r round(anova[1, "Mean Sq"], 3)` \>\> MSE = `r round(anova[2, "Mean Sq"], 3)`, hence the ratio is as desired.
+On the basis of this, we can reject the null hypothesis, interpreting that there is some amount of linear relationship between the two variables.
 
 ```{r fig-vehicle-residual}
 #| echo: false
 #| warning: false
 #| message: false
-#| fig-cap: "Scatter plot of fitted values (x-axis) and residuals (y-axis) for a simple linear regression"
+#| fig-cap: "Scatter plot of fitted values (x-axis) and residuals (y-axis)"
 
 df_new <- data.frame(fitted = lm_fit$fitted.values,residuals = lm_fit$residuals)
 
@@ -120,20 +158,36 @@ ggplot(df_new, aes(fitted, residuals))+
   labs(
     x = "Fitted Values",
     y = "Residuals",
-    title = "Residuals vs Fitted Values plot For Number of Vehicle Theft vs Week"
+    title = "Residuals vs Fitted Values plot For Number of Vehicle Theft Reports per Week"
   )
 ```
 
-@fig-vehicle-residual examines the residuals to assess model fit. From the scatterplot, the following can be interpreted:
-1. The regression function is linear as there are no visible arcs in the plot.
-2. The error terms have equal variance, as there is no major spread in the data points with the increase in weeks.
-3. The error terms are not completely independent, as we can see that residuals increase and decrease with the increase in the fitted values.
-4. The error terms are not normally distributed.
+Another way to assess the fit of our linear regression model is to examine the residual vs fitted value plot and assess if the assumptions of a linear regression model hold for our analysis.
+@fig-vehicle-residual examines the residuals to assess model fit.
+From the scatter plot, the following can be interpreted:
+
+-   There is a somewhat linear relationship between the number of vehicle theft reports and weeks, as there are no visible arcs or curves in the plot, but due to some points forming waves, it is difficult to interpret the same with certainty.
+
+-   The error terms have equal variance, as there is no major spread in the data points with the increase in weeks.
+
+-   The error terms are not independent, as we can see an increase and decrease in the residual points forming waves with the increase in the fitted values.
+
+-   The error terms might not be normally distributed, but to verify that a quantile-quantile plot would be needed.
 
 # Discussion {#sec-discussion}
 
-The analysis between vehicle thefts and week of the year 2024 explains a few seasonal patterns in the data according to my research objective. However, after assessing the residual vs fitted model plot, it can be said that linear regression model doesn't necessarily fit the data. Thus, the increasing and decreasing patterns of number of vehicle thefts can be influenced by other factors and cannot be explained only using the seasonal factors.
+The analysis of vehicle thefts and the week of the year 2024 explains a few seasonal patterns in the data, according to the research objective.
+@fig-vehicle-theft-scatter indicates that the initial assumptions hold value.
+Between week 23-37 (summer, 4th of July), there can be seen a spike in the number of thefts, which can be due to the increase in outdoor activities in the season, leading to higher usage of vehicles.
+In contrast, week 45-55 (winter, Thanksgiving, Christmas) shows the lowest number of thefts in San Francisco might be due to the colder season and decrease in vehicles on the streets, which falls under the earlier assumption of this project.
 
-For further inspection of the assumptions made initially, the analysis should be done with multiple years of data. This could provide trends of number of vehicle thefts across weeks which would be helpful in interpreting the results with better confidence. Additionally, the results could change based on the time of day and police districts.
+Even so, these interpretations cannot be made with certainty, as after assessing the residual vs fitted model plot, it can be said that the linear regression model doesn't necessarily fit the data.
+As the errors are not independent, there might be non-linear patterns that the linear regression model is not fit to expand.
+Thus, the increasing and decreasing patterns of the number of vehicle thefts can be influenced by other factors such as an increase in police patrols in the middle to latter half of the year and implementation of automated drones and cameras to increase surveillance.
+
+For further inspection of the assumptions made initially, the analysis should be done with multiple years of data to assess if the seasonal trend is valid for each year.
+Analysis with the addition of a few other key predictors, like police districts or incident time (day or night), can be used to analyze the seasonal trends better with multiple regression models.
+Time series models should be explored for a better analysis of the data to explore the non-linear patterns.
+This could be helpful in exploring different trends of the number of vehicle thefts across weeks, which would prove significant towards the real goal of assisting the SFPD with enhanced planning and reducing the theft rates further.
 
 # References

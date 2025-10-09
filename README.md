@@ -6,11 +6,16 @@ Project repository for MATH 261A.
 * Author = Kumari Shyama
 * Data of Submission = 09-24-2025
 
+#Project Second Version
+
+* Author = Kumari Shyama
+* Data of Submission = 10-08-2025
+
 #Project Folder
 
-* analysis folder: Contains R Code for the first version of project.
+* analysis folder: Contains R Code for the first version of project (Refined and removed the errors).
 * data folder: Doesn't contain any data.
-* paper: Contains PDF document for the first project. Quarto document for the same and references.bib
+* paper: Contains PDF document for the first project (Updated after the peer review comments), Quarto document for the same (Updated after the peer review comments) and references.bib
 
 ## Data 
 
