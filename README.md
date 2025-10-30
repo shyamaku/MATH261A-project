@@ -1,33 +1,40 @@
 # MATH261A-project
+
 Project repository for MATH 261A.
 
-#Project First Version
+## First Project Versions
 
-* Author = Kumari Shyama
-* Data of Submission = 09-24-2025
+### 1:
 
-#Project Second Version
+-   Author = Kumari Shyama
+-   Data of Submission = 09-24-2025
 
-* Author = Kumari Shyama
-* Data of Submission = 10-08-2025
+### 2:
 
-#Project Folder
+-   Author = Kumari Shyama
+-   Data of Submission = 10-08-2025
 
-* analysis folder: Contains R Code for the first version of project (Refined and removed the errors).
-* data folder: Doesn't contain any data.
-* paper: Contains PDF document for the first project (Updated after the peer review comments), Quarto document for the same (Updated after the peer review comments) and references.bib
+### Final:
 
-## Data 
+-   Author = Kumari Shyama
+-   Data of Submission = 10-29-2025
 
-Data: [Police Department Incident Reports: 2018 to Present](https://data.sfgov.org/d/wg3w-h783)
-Data used in this project is obtained from [San Francisco Open Data](https://data.sfgov.org) who provide the data under the [Open Data Commons Public Domain Dedication and License](https://opendatacommons.org/licenses/pddl/1-0/).
+## Project Folder
+
+-   analysis folder: Contains R Code for the first version of the project (Refined and removed the errors).
+-   data folder: Doesn't contain any data.
+-   paper: Contains PDF document for the first project (Updated after the peer review comments), Quarto document for the same (Updated after the peer review comments), and references.bib
+
+## Data
+
+Data: [Police Department Incident Reports: 2018 to Present](https://data.sfgov.org/d/wg3w-h783) Data used in this project is obtained from [San Francisco Open Data](https://data.sfgov.org) who provide the data under the [Open Data Commons Public Domain Dedication and License](https://opendatacommons.org/licenses/pddl/1-0/).
 
 ## External Resources
 
 The final report and code were written by Kumari Shyama, but the following resources were used for grammar check and reference:
 
-* Homework 2 Solution
-* Grammarly: This was used for grammar checks only.
+-   Homework 2 Solution
+-   Grammarly: This was used for grammar checks only.
 
 # Acknowledgments
 
