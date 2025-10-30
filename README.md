@@ -4,12 +4,12 @@ Project repository for MATH 261A.
 
 ## First Project Versions
 
-### 1:
+### First:
 
 -   Author = Kumari Shyama
 -   Data of Submission = 09-24-2025
 
-### 2:
+### Second:
 
 -   Author = Kumari Shyama
 -   Data of Submission = 10-08-2025
@@ -21,9 +21,9 @@ Project repository for MATH 261A.
 
 ## Project Folder
 
--   analysis folder: Contains R Code for the first version of the project (Refined and removed the errors).
--   data folder: Doesn't contain any data.
--   paper: Contains PDF document for the first project (Updated after the peer review comments), Quarto document for the same (Updated after the peer review comments), and references.bib
+-   analysis folder: Does not contain any data.
+-   data folder: Does not contain any data.
+-   paper: Contains PDF document for the first project (Updated as per second review comments), Quarto document with the R code (Updated as per second review comments), and references.bib
 
 ## Data
 
@@ -35,6 +35,7 @@ The final report and code were written by Kumari Shyama, but the following resou
 
 -   Homework 2 Solution
 -   Grammarly: This was used for grammar checks only.
+-   ChatGPT: This was used to check the grammar, tone, and academic structure of the final report.
 
 # Acknowledgments
 
